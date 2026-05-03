@@ -62,6 +62,8 @@ Proses ini akan menghasilkan 4 buah file output yang akan disimpan di dalam fold
 
 ```text
 feature_extraction/
+├── datasets/
+│   └── clean_data.csv          # Dataset yang telah di-preprocessing
 ├── output/
 │   ├── tfidf_features.npz      # Matriks fitur TF-IDF
 │   ├── tfidf_vectorizer.pkl    # Model TfidfVectorizer
