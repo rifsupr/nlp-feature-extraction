@@ -31,7 +31,7 @@ Untuk menginstall semua *dependencies*, Anda dapat menjalankan perintah berikut:
 pip install pandas scikit-learn scipy numpy
 ```
 
-## 📊 Penjelasan Dataset Input
+## Penjelasan Dataset Input
 
 Dataset yang digunakan sebagai input dalam program ini adalah `clean_data.csv`. File ini merupakan hasil ekstraksi dari tahap **Preprocessing** yang dilakukan sebelumnya. 
 - Berisi ~13.169 baris teks tweet berbahasa Indonesia yang telah melewati tahap *Case Folding*, *Cleansing*, *Tokenizing*, *Filtering*, dan *Stemming*.
@@ -47,7 +47,7 @@ Proses ini akan menghasilkan 4 buah file output yang akan disimpan di dalam fold
 3. **`bow_features.npz`**: Matriks sparse (berisi angka/frekuensi kemunculan kata) hasil perhitungan metode Bag of Words.
 4. **`bow_vectorizer.pkl`**: Objek model `CountVectorizer` yang telah di-*fit*.
 
-## 🚀 Cara Menjalankan
+## Cara Menjalankan
 
 1. Pastikan Anda telah menyelesaikan tahap *Preprocessing* dan dataset bersih berada di lokasi root proyek: `../datasets/clean_data.csv`.
 2. Buka terminal/CMD dan pastikan Anda berada di dalam direktori `feature_extraction`.
@@ -58,7 +58,7 @@ Proses ini akan menghasilkan 4 buah file output yang akan disimpan di dalam fold
 4. Tunggu beberapa saat hingga program selesai memproses belasan ribu data.
 5. Hasil akhirnya akan muncul di layar konsol beserta informasi mengenai ukuran *vocabulary* dan dimensi matriks fitur. File akan otomatis tersimpan di folder `output/`.
 
-## 📁 Struktur Project
+## Struktur Project
 
 ```text
 feature_extraction/
