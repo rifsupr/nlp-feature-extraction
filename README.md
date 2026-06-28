@@ -1,74 +1,309 @@
-# NLP Feature Extraction - Indonesian Abusive & Hate Speech Twitter Dataset
+# 🤖 Transformer Sentiment Analysis using DistilBERT
 
-**Natural Language Processing (NLP)**
+Project ini merupakan implementasi sederhana **Transformer** menggunakan model **DistilBERT** dari Hugging Face untuk melakukan **Sentiment Analysis** pada kalimat berbahasa Inggris.
 
-## Penjelasan Project
+Project dibuat sebagai media pembelajaran **Natural Language Processing (NLP)** untuk memahami penggunaan **Transformer**, khususnya model **DistilBERT**, tanpa harus melakukan proses training dari awal (from scratch).
 
-Project ini berisi implementasi tahapan **Feature Extraction** (Ekstraksi Fitur) menggunakan teknik Natural Language Processing (NLP) pada dataset teks Twitter berbahasa Indonesia yang sebelumnya telah melalui tahap *preprocessing*. Tujuan dari project ini adalah untuk mengonversi data teks bersih (*clean text*) menjadi representasi angka (vektor numerik) agar dapat diproses oleh algoritma Machine Learning pada tahap pemodelan (*modeling*) selanjutnya.
+---
 
-## Tahapan Ekstraksi Fitur
+# 🎯 Tujuan Project
 
-Proses feature extraction yang dilakukan dalam project ini meliputi dua metode yang paling populer di NLP:
+Project ini bertujuan untuk:
 
-1. **TF-IDF (Term Frequency - Inverse Document Frequency)**:
-   Metode ini memberikan bobot pada setiap kata berdasarkan seberapa sering kata tersebut muncul dalam sebuah dokumen (tweet) dibandingkan dengan frekuensinya di seluruh korpus dokumen. Kata yang sering muncul di satu dokumen tapi jarang di dokumen lain akan mendapat bobot tinggi.
-2. **Bag of Words (BoW / CountVectorizer)**:
-   Metode ini menghitung frekuensi (jumlah kemunculan) setiap kata dalam setiap dokumen (tweet). Berbeda dengan TF-IDF yang memperhitungkan bobot *inverse*, BoW hanya berfokus pada seberapa banyak kata tersebut muncul murni berdasarkan *count*.
+- Memahami konsep dasar Transformer.
+- Menggunakan model **pre-trained DistilBERT**.
+- Melakukan klasifikasi sentimen.
+- Menampilkan Confidence Score.
+- Menyimpan hasil prediksi ke dalam file CSV.
+- Melakukan prediksi secara interaktif melalui terminal.
 
-Kedua metode ini diimplementasikan menggunakan library `scikit-learn`.
+---
 
-## Library yang Diinstall
+# 📂 Struktur Project
 
-Project ini menggunakan bahasa pemrograman **Python 3**. Beberapa library utama yang dibutuhkan dan perlu diinstall meliputi:
-
-- **pandas**: Digunakan untuk membaca dataset CSV.
-- **scikit-learn**: Digunakan untuk menyediakan fungsi ekstraksi fitur (menggunakan modul `TfidfVectorizer` dan `CountVectorizer`).
-- **scipy**: Digunakan untuk menyimpan matriks fitur yang bersifat renggang (*sparse matrix*) secara efisien menggunakan format `.npz`.
-- **numpy**: Mendukung proses komputasi numerik.
-
-Untuk menginstall semua *dependencies*, Anda dapat menjalankan perintah berikut:
-```bash
-pip install pandas scikit-learn scipy numpy
 ```
-
-## Penjelasan Dataset Input
-
-Dataset yang digunakan sebagai input dalam program ini adalah `clean_data.csv`. File ini merupakan hasil ekstraksi dari tahap **Preprocessing** yang dilakukan sebelumnya. 
-- Berisi ~13.169 baris teks tweet berbahasa Indonesia yang telah melewati tahap *Case Folding*, *Cleansing*, *Tokenizing*, *Filtering*, dan *Stemming*.
-- Target kolom teks yang diekstrak adalah kolom `hasil_preprocessing`.
-- Jika terdapat nilai teks kosong (*missing values*) yang terjadi karena proses *cleansing/stemming*, program secara otomatis akan menghapus baris kosong tersebut sebelum memulai ekstraksi.
-
-## 💾 Hasil Ekstraksi (Output)
-
-Proses ini akan menghasilkan 4 buah file output yang akan disimpan di dalam folder `output/`:
-
-1. **`tfidf_features.npz`**: Matriks sparse (berisi angka/bobot numerik) hasil perhitungan metode TF-IDF untuk seluruh korpus data.
-2. **`tfidf_vectorizer.pkl`**: Objek model `TfidfVectorizer` yang telah di-*fit* dengan data pelatihan. Sangat berguna untuk di-*load* di kemudian hari ketika ingin mengekstrak teks baru di proses klasifikasi (*deployment*).
-3. **`bow_features.npz`**: Matriks sparse (berisi angka/frekuensi kemunculan kata) hasil perhitungan metode Bag of Words.
-4. **`bow_vectorizer.pkl`**: Objek model `CountVectorizer` yang telah di-*fit*.
-
-## Cara Menjalankan
-
-1. Pastikan Anda telah menyelesaikan tahap *Preprocessing* dan dataset bersih berada di lokasi root proyek: `../datasets/clean_data.csv`.
-2. Buka terminal/CMD dan pastikan Anda berada di dalam direktori `feature_extraction`.
-3. Jalankan script utama:
-   ```bash
-   python main.py
-   ```
-4. Tunggu beberapa saat hingga program selesai memproses belasan ribu data.
-5. Hasil akhirnya akan muncul di layar konsol beserta informasi mengenai ukuran *vocabulary* dan dimensi matriks fitur. File akan otomatis tersimpan di folder `output/`.
-
-## Struktur Project
-
-```text
-feature_extraction/
-├── datasets/
-│   └── clean_data.csv          # Dataset yang telah di-preprocessing
+transformer-demo/
+│
 ├── output/
-│   ├── tfidf_features.npz      # Matriks fitur TF-IDF
-│   ├── tfidf_vectorizer.pkl    # Model TfidfVectorizer
-│   ├── bow_features.npz        # Matriks fitur BoW
-│   └── bow_vectorizer.pkl      # Model CountVectorizer
-├── main.py                     # File script utama untuk tahapan feature extraction
-└── README.md                   # Dokumentasi project ini
+│   └── transformer_result.csv
+│
+├── main.py
+├── requirements.txt
+└── README.md
 ```
+
+---
+
+# 📚 Dataset
+
+Project ini menggunakan beberapa contoh kalimat (dummy dataset).
+
+Contoh:
+
+| Text | Expected Sentiment |
+|------|--------------------|
+| This movie is amazing and I really enjoyed it. | Positive |
+| The film was terrible and very boring. | Negative |
+| The acting was fantastic. | Positive |
+| I will never watch this movie again. | Negative |
+| The story was interesting and emotional. | Positive |
+
+Dataset dapat diganti dengan:
+
+- IMDb Movie Reviews
+- Amazon Reviews
+- Twitter Sentiment
+- Yelp Reviews
+- Custom Dataset
+
+---
+
+# ⚙️ Instalasi
+
+Install seluruh library:
+
+```bash
+pip install -r requirements.txt
+```
+
+atau
+
+```bash
+pip install transformers torch pandas
+```
+
+---
+
+# ▶️ Menjalankan Program
+
+Masuk ke folder project
+
+```bash
+cd transformer-demo
+```
+
+Jalankan program
+
+```bash
+python main.py
+```
+
+Saat pertama kali dijalankan, model DistilBERT akan diunduh secara otomatis dari Hugging Face. Setelah itu, model akan disimpan dalam cache sehingga eksekusi berikutnya lebih cepat.
+
+---
+
+# 🔄 Workflow
+
+```
+Input Text
+      │
+      ▼
+Tokenizer
+      │
+      ▼
+Embedding
+      │
+      ▼
+Transformer Encoder
+      │
+      ▼
+Self-Attention
+      │
+      ▼
+Classification Head
+      │
+      ▼
+Prediction
+```
+
+---
+
+# 🧠 Arsitektur Transformer
+
+```
+Sentence
+    │
+    ▼
+Tokenizer
+    │
+    ▼
+Embedding
+    │
+    ▼
+Positional Encoding
+    │
+    ▼
+Transformer Encoder
+    │
+    ▼
+Multi-Head Self Attention
+    │
+    ▼
+Feed Forward Network
+    │
+    ▼
+Classification Layer
+    │
+    ▼
+Positive / Negative
+```
+
+---
+
+# 📊 Contoh Output
+
+```
+============================================================
+
+Loading Transformer Model...
+
+============================================================
+
+Model berhasil dimuat!
+
+============================================================
+
+HASIL PREDIKSI
+
+============================================================
+
+Text :
+
+This movie is amazing and I really enjoyed it.
+
+Prediction :
+
+POSITIVE
+
+Confidence :
+
+0.9998
+
+------------------------------------------------------------
+
+Text :
+
+The film was terrible and very boring.
+
+Prediction :
+
+NEGATIVE
+
+Confidence :
+
+0.9997
+```
+
+---
+
+# 📄 Output CSV
+
+Program akan menghasilkan file:
+
+```
+output/
+
+transformer_result.csv
+```
+
+Contoh isi:
+
+| Text | Prediction | Confidence |
+|------|------------|-----------:|
+| This movie is amazing... | POSITIVE | 0.9998 |
+| The film was terrible... | NEGATIVE | 0.9997 |
+| The acting was fantastic. | POSITIVE | 0.9996 |
+
+---
+
+# 📦 Library
+
+Project menggunakan:
+
+- Transformers
+- PyTorch
+- Pandas
+
+---
+
+# 📖 Istilah Penting
+
+## Transformer
+
+Arsitektur deep learning yang menggunakan mekanisme **Self-Attention** untuk memahami hubungan antar kata dalam suatu kalimat.
+
+---
+
+## DistilBERT
+
+Versi ringan dari BERT yang lebih cepat dan lebih kecil, tetapi tetap mempertahankan sebagian besar performa model asli.
+
+---
+
+## Tokenizer
+
+Mengubah teks menjadi token yang dapat diproses oleh model.
+
+---
+
+## Self-Attention
+
+Mekanisme yang memungkinkan model menentukan kata mana yang paling relevan dengan kata lain dalam satu kalimat.
+
+---
+
+## Confidence Score
+
+Nilai probabilitas yang menunjukkan tingkat keyakinan model terhadap hasil prediksi.
+
+---
+
+# 🚀 Pengembangan Selanjutnya
+
+Project ini dapat dikembangkan menjadi:
+
+- Fine-Tuning BERT pada dataset IMDb.
+- Fine-Tuning RoBERTa.
+- Multi-Class Text Classification.
+- Emotion Detection.
+- Fake News Detection.
+- Question Answering.
+- Text Summarization.
+- Translation.
+- Streamlit Dashboard.
+
+---
+
+# 📚 Referensi
+
+1. Vaswani, A., et al. (2017). *Attention Is All You Need*.
+
+2. Devlin, J., et al. (2019). *BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding*.
+
+3. Sanh, V., et al. (2019). *DistilBERT: A Distilled Version of BERT*.
+
+4. Hugging Face Transformers Documentation
+
+https://huggingface.co/docs/transformers
+
+---
+
+# 👨‍💻 Author
+
+**Arif**
+
+Master's Student in Information Technology
+
+Bidang minat:
+
+- Artificial Intelligence
+- Deep Learning
+- Natural Language Processing
+- Machine Learning
+- Data Science
+
+---
+
+# ⭐ Jika project ini bermanfaat
+
+Silakan berikan ⭐ pada repository ini.
